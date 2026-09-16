@@ -26,10 +26,12 @@ mcpi/                     库本体（与上游同名同布局）
   block.py                未改动（108 个方块常量）
   entity.py               未改动（79 个实体常量，按需求保留）
   event.py  vec3.py  __init__.py    未改动
+examples/setblock_quickstart.py   最小 setBlock 示例（装上库之后先跑这个）
 examples/esp32_hello.py   ESP32 完整示例（WiFi + 放方块 + 事件轮询）
 tests/
   test_transport_cpython.py   端到端测试（17 个用例，自带 mock 服务端，不需要 MC 服务端）
   test_mp_compat.py           兼容性自检 69 项断言，**CPython 和板上都能跑**
+  test_examples.py            示例干跑测试（假 network + 重定向 socket，验证示例真能用）
   mock_server.py              模拟 RaspberryJuice 的本地测试服务端
 tools/wasm_micropython/  在没有硬件的情况下，用 MicroPython 的 wasm 构建做冒烟验证
 package.json              给 mip / mpremote mip 用的包清单（声明要装哪 8 个 .py）
@@ -101,6 +103,15 @@ mpremote connect COM3 fs cp -r mcpi :mcpi
 
 ### 装示例并运行
 
+先跑最小示例（改完常量直接上板，能立刻在游戏里看到方块）：
+
+```bash
+mpremote connect COM3 fs cp examples/setblock_quickstart.py :main.py
+mpremote connect COM3 reset
+```
+
+想玩事件轮询（用剑打方块触发动作）再换完整示例：
+
 ```bash
 # 示例改名为 main.py 后上电自启（记得先改 WIFI_SSID / WIFI_PASS / MC_HOST）
 mpremote connect COM3 fs cp examples/esp32_hello.py :main.py
@@ -113,7 +124,10 @@ mpremote connect COM3 run test_mp_compat.py
 mpremote connect COM3 reset
 ```
 
-`examples/esp32_hello.py` 里要改三处：WiFi 名、WiFi 密码、`MC_HOST`（跑 Minecraft 服务端的电脑 IP）。
+两个示例都要改三处：WiFi 名、WiFi 密码、`MC_HOST`（跑 Minecraft 服务端的电脑 IP）。
+
+> 示例故意以 `player.getTilePos()` 为基准放方块，而不是写绝对坐标 ——
+> 这样能绕开 RaspberryJuice「默认相对出生点坐标」这个坑，无论服务器怎么配都能看见方块。
 
 ### 服务端准备（Java 版 + RaspberryJuice）
 
