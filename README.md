@@ -87,7 +87,7 @@ mpremote connect COM3 exec "import mcpi.minecraft; print('ok')"
 - **下载是在你的电脑上完成的**（`mpremote mip` 用 PC 的 `urllib` 拉文件，再通过串口写进板子），
   所以**板子不需要联网**就能装。注意区分：如果你是在板子的 REPL 里跑 `import mip; mip.install(...)`，
   那就是板子自己联网下载了。
-- 想锁定版本（打 tag 后）：`mpremote connect COM3 mip install github:cola0405/micropython-mcpi@v1.2.1`
+- 想锁定版本：`mpremote connect COM3 mip install github:cola0405/micropython-mcpi@v1.2.1-mp1`
 - 装到别的目录：`mpremote connect COM3 mip install --target /flash/lib github:cola0405/micropython-mcpi`
   （该目录必须在 `sys.path` 里才能 import）
 - 不走网络、直接从本地克隆装：`mpremote connect COM3 mip install ./package.json`

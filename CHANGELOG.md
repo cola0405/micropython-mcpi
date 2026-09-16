@@ -15,6 +15,9 @@
 + 新增可选能力：`Connection(timeout=)`、`Connection(max_line=)` + `ResponseTooLarge`、`close()`
 + 新增测试与工具：17 个端到端用例（自带 mock 服务端）、69 项兼容自检（CPython/板上双跑）、
   wasm 版 MicroPython 冒烟验证脚本
++ 新增 `package.json`：支持 `mpremote mip install github:cola0405/micropython-mcpi` 直接安装
+  （mpremote 在 PC 侧下载再经串口写入设备，板子无需联网）
++ 发布 tag `v1.2.1-mp1` 作为稳定的安装版本
 
 ## 2021-10-31 v1.2.1
 
