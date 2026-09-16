@@ -1,0 +1,13 @@
+{
+  "version": "1.2.1",
+  "urls": [
+    ["mcpi/__init__.py", "mcpi/__init__.py"],
+    ["mcpi/block.py", "mcpi/block.py"],
+    ["mcpi/connection.py", "mcpi/connection.py"],
+    ["mcpi/entity.py", "mcpi/entity.py"],
+    ["mcpi/event.py", "mcpi/event.py"],
+    ["mcpi/minecraft.py", "mcpi/minecraft.py"],
+    ["mcpi/util.py", "mcpi/util.py"],
+    ["mcpi/vec3.py", "mcpi/vec3.py"]
+  ]
+}

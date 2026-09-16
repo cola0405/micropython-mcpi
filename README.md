@@ -32,6 +32,7 @@ tests/
   test_mp_compat.py           兼容性自检 69 项断言，**CPython 和板上都能跑**
   mock_server.py              模拟 RaspberryJuice 的本地测试服务端
 tools/wasm_micropython/  在没有硬件的情况下，用 MicroPython 的 wasm 构建做冒烟验证
+package.json              给 mip / mpremote mip 用的包清单（声明要装哪 8 个 .py）
 docs/                    移植评估报告（含逐条风险分析与方案对比）
 ```
 
@@ -71,18 +72,44 @@ docs/                    移植评估报告（含逐条风险分析与方案对�
 
 ## 快速开始（ESP32）
 
-```bash
-# 1. 推库到板子
-mpremote connect COM3 fs cp -r mcpi :mcpi
+### 方式 1：用 `mip` 安装（推荐）
 
-# 2. 推示例并改名为 main.py（上电自启）
+```bash
+# 装库到板子的 /lib（mpremote 会自动找到 sys.path 里以 /lib 结尾的目录）
+mpremote connect COM3 mip install github:cola0405/micropython-mcpi
+
+# 装完确认一下
+mpremote connect COM3 exec "import mcpi.minecraft; print('ok')"
+```
+
+几点说明：
+
+- **下载是在你的电脑上完成的**（`mpremote mip` 用 PC 的 `urllib` 拉文件，再通过串口写进板子），
+  所以**板子不需要联网**就能装。注意区分：如果你是在板子的 REPL 里跑 `import mip; mip.install(...)`，
+  那就是板子自己联网下载了。
+- 想锁定版本（打 tag 后）：`mpremote connect COM3 mip install github:cola0405/micropython-mcpi@v1.2.1`
+- 装到别的目录：`mpremote connect COM3 mip install --target /flash/lib github:cola0405/micropython-mcpi`
+  （该目录必须在 `sys.path` 里才能 import）
+- 不走网络、直接从本地克隆装：`mpremote connect COM3 mip install ./package.json`
+- `package.json` 里的文件清单就是 `mcpi/` 下那 8 个 `.py`。
+
+### 方式 2：手动拷贝（不用 mip）
+
+```bash
+mpremote connect COM3 fs cp -r mcpi :mcpi
+```
+
+### 装示例并运行
+
+```bash
+# 示例改名为 main.py 后上电自启（记得先改 WIFI_SSID / WIFI_PASS / MC_HOST）
 mpremote connect COM3 fs cp examples/esp32_hello.py :main.py
 
-# 3. 先跑兼容性自检，确认固件没问题
+# 建议先跑一次兼容性自检，确认固件没问题
 mpremote connect COM3 fs cp tests/test_mp_compat.py :
 mpremote connect COM3 run test_mp_compat.py
 
-# 4. 复位运行
+# 复位运行
 mpremote connect COM3 reset
 ```
 
