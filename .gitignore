@@ -1,0 +1,22 @@
+# Python
+*.py[cdo]
+__pycache__/
+*.egg-info/
+dist/
+build/
+
+# MicroPython 交叉编译产物
+*.mpy
+
+# 虚拟环境 / 编辑器
+.venv/
+venv/
+.idea/
+*.vim
+*.swp
+tags
+.vscode
+
+# tools/wasm_micropython 用的第三方 wasm 包（体积大，按 README 自行下载）
+tools/wasm_micropython/package/
+tools/wasm_micropython/*.tgz

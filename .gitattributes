@@ -1,0 +1,11 @@
+# 源文件统一 LF：这些文件要原样拷到 MicroPython 板子上，别让 Windows 检出成 CRLF
+* text=auto eol=lf
+
+*.py   text eol=lf
+*.js   text eol=lf
+*.md   text eol=lf
+*.yml  text eol=lf
+*.toml text eol=lf
+*.mpy  binary
+*.wasm binary
+*.tgz  binary
